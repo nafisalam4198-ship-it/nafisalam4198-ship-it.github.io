@@ -1,0 +1,869 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+
+  <!-- ============================================================
+       CHANGE THIS: Update the browser tab title to your name
+       ============================================================ -->
+  <title>MD Nafis Alam | Data Analyst Portfolio</title>
+
+  <!-- Google Fonts — Source Sans 3 + Source Serif 4 -->
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Source+Sans+3:wght@300;400;600;700&family=Source+Serif+4:ital,wght@0,400;0,600;1,400&display=swap" rel="stylesheet" />
+
+  <!-- Font Awesome for icons -->
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css" />
+
+  <style>
+    /* =============================================================
+       CSS CUSTOM PROPERTIES (Design Tokens)
+       CHANGE: Update --accent to any hex colour you prefer.
+       ============================================================= */
+    :root {
+      --accent:      #5e81ac;
+      --accent-dark: #4a6a94;
+      --accent-light:#d8e4f0;
+      --sidebar-bg:  #2d3748;
+      --sidebar-text:#e2e8f0;
+      --body-bg:     #ffffff;
+      --text:        #2d3748;
+      --muted:       #718096;
+      --card-shadow: 0 4px 20px rgba(0,0,0,0.08);
+      --sidebar-w:   280px;
+      --sans:        'Source Sans 3', sans-serif;
+      --serif:       'Source Serif 4', serif;
+      --radius:      10px;
+      --transition:  0.25s ease;
+    }
+
+    /* ---------- Reset ---------- */
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+    html { scroll-behavior: smooth; }
+    body {
+      font-family: var(--sans);
+      font-size: 16px;
+      color: var(--text);
+      background: var(--body-bg);
+      display: flex;
+      min-height: 100vh;
+    }
+
+    a { color: var(--accent); text-decoration: none; transition: color var(--transition); }
+    a:hover { color: var(--accent-dark); }
+    img { max-width: 100%; display: block; }
+
+    /* =============================================================
+       SIDEBAR
+       ============================================================= */
+    #sidebar {
+      position: fixed;
+      top: 0; left: 0;
+      width: var(--sidebar-w);
+      height: 100vh;
+      background: var(--sidebar-bg);
+      color: var(--sidebar-text);
+      display: flex;
+      flex-direction: column;
+      padding: 2.5rem 1.8rem;
+      z-index: 100;
+      overflow-y: auto;
+    }
+
+    .sidebar-brand h1 {
+      font-family: var(--serif);
+      font-size: 1.5rem;
+      font-weight: 600;
+      color: #fff;
+      line-height: 1.2;
+    }
+
+    /* CHANGE: Update job title below your name in the sidebar */
+    .sidebar-brand p {
+      font-size: 0.78rem;
+      color: #a0aec0;
+      margin-top: 0.4rem;
+      line-height: 1.4;
+    }
+
+    .sidebar-divider {
+      border: none;
+      border-top: 1px solid rgba(255,255,255,0.1);
+      margin: 1.6rem 0;
+    }
+
+    /* Sidebar navigation */
+    #sidebar nav ul { list-style: none; }
+    #sidebar nav ul li + li { margin-top: 0.2rem; }
+    #sidebar nav ul li a {
+      display: flex;
+      align-items: center;
+      gap: 0.75rem;
+      padding: 0.55rem 0.8rem;
+      border-radius: 6px;
+      color: #cbd5e0;
+      font-size: 0.95rem;
+      font-weight: 600;
+      letter-spacing: 0.02em;
+      transition: background var(--transition), color var(--transition);
+    }
+    #sidebar nav ul li a i { width: 18px; text-align: center; font-size: 0.9rem; }
+    #sidebar nav ul li a:hover,
+    #sidebar nav ul li a.active {
+      background: rgba(255,255,255,0.08);
+      color: #fff;
+    }
+
+    /* Social icons at the bottom of sidebar */
+    .sidebar-social {
+      margin-top: auto;
+      padding-top: 1.5rem;
+      display: flex;
+      gap: 0.8rem;
+      flex-wrap: wrap;
+    }
+    .sidebar-social a {
+      width: 36px; height: 36px;
+      border-radius: 50%;
+      background: rgba(255,255,255,0.08);
+      color: #a0aec0;
+      display: flex; align-items: center; justify-content: center;
+      font-size: 0.9rem;
+      transition: background var(--transition), color var(--transition);
+    }
+    .sidebar-social a:hover { background: var(--accent); color: #fff; }
+
+    /* =============================================================
+       MAIN CONTENT WRAPPER
+       ============================================================= */
+    #main {
+      margin-left: var(--sidebar-w);
+      flex: 1;
+      display: flex;
+      flex-direction: column;
+    }
+
+    /* =============================================================
+       TOP HEADER BAR
+       ============================================================= */
+    #header {
+      position: sticky;
+      top: 0;
+      background: rgba(255,255,255,0.95);
+      backdrop-filter: blur(8px);
+      border-bottom: 1px solid #e8edf5;
+      padding: 0.9rem 2.5rem;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      z-index: 50;
+    }
+
+    .header-logo {
+      font-family: var(--serif);
+      font-size: 1.2rem;
+      font-weight: 600;
+      color: var(--accent);
+      letter-spacing: -0.02em;
+    }
+
+    .header-social { display: flex; gap: 0.9rem; }
+    .header-social a {
+      color: var(--muted);
+      font-size: 1rem;
+      transition: color var(--transition);
+    }
+    .header-social a:hover { color: var(--accent); }
+
+    /* =============================================================
+       PAGE SECTIONS
+       ============================================================= */
+    section {
+      padding: 4rem 2.5rem;
+    }
+    section:nth-child(even) { background: #f8fafc; }
+
+    .section-label {
+      font-size: 0.75rem;
+      font-weight: 700;
+      letter-spacing: 0.12em;
+      text-transform: uppercase;
+      color: var(--accent);
+      margin-bottom: 0.5rem;
+    }
+
+    .section-title {
+      font-family: var(--serif);
+      font-size: 2rem;
+      font-weight: 600;
+      color: var(--text);
+      margin-bottom: 1rem;
+      line-height: 1.25;
+    }
+
+    .section-divider {
+      width: 50px; height: 3px;
+      background: var(--accent);
+      border-radius: 2px;
+      margin-bottom: 2rem;
+    }
+
+    /* =============================================================
+       BANNER / ABOUT SECTION
+       ============================================================= */
+    #banner {
+      display: flex;
+      align-items: center;
+      gap: 3rem;
+      padding: 5rem 2.5rem;
+      background: linear-gradient(135deg, #f0f5fb 0%, #ffffff 60%);
+      border-bottom: 1px solid #e8edf5;
+      flex-wrap: wrap;
+    }
+
+    .banner-text { flex: 1; min-width: 280px; }
+
+    .banner-greeting {
+      font-size: 0.9rem;
+      font-weight: 700;
+      letter-spacing: 0.1em;
+      text-transform: uppercase;
+      color: var(--accent);
+      margin-bottom: 0.75rem;
+    }
+
+    .banner-text h2 {
+      font-family: var(--serif);
+      font-size: 2.6rem;
+      font-weight: 600;
+      line-height: 1.15;
+      color: var(--text);
+      margin-bottom: 0.5rem;
+    }
+
+    .banner-subtitle {
+      font-size: 1.05rem;
+      color: var(--accent);
+      font-weight: 600;
+      margin-bottom: 1.2rem;
+    }
+
+    .banner-bio {
+      font-size: 1rem;
+      color: #4a5568;
+      line-height: 1.8;
+      max-width: 600px;
+    }
+
+    .banner-cta {
+      margin-top: 2rem;
+      display: flex;
+      gap: 1rem;
+      flex-wrap: wrap;
+    }
+
+    .btn {
+      display: inline-flex;
+      align-items: center;
+      gap: 0.5rem;
+      padding: 0.7rem 1.5rem;
+      border-radius: var(--radius);
+      font-weight: 600;
+      font-size: 0.9rem;
+      cursor: pointer;
+      transition: all var(--transition);
+      border: 2px solid transparent;
+    }
+
+    .btn-primary {
+      background: var(--accent);
+      color: #fff;
+    }
+    .btn-primary:hover { background: var(--accent-dark); color: #fff; }
+
+    .btn-outline {
+      background: transparent;
+      color: var(--accent);
+      border-color: var(--accent);
+    }
+    .btn-outline:hover { background: var(--accent); color: #fff; }
+
+    /* ---- Profile photo ---- */
+    .banner-photo {
+      flex-shrink: 0;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      gap: 1rem;
+    }
+
+    /* CHANGE: To add your real photo, replace the placeholder below with:
+       <img src="images/profile.jpg" alt="Your Name" />
+       Make sure the image is saved as images/profile.jpg              */
+    .photo-circle {
+      width: 200px; height: 200px;
+      border-radius: 50%;
+      border: 5px solid var(--accent);
+      box-shadow: 0 0 0 8px var(--accent-light);
+      overflow: hidden;
+      background: var(--accent-light);
+      display: flex; align-items: center; justify-content: center;
+    }
+    .photo-circle img {
+      width: 100%; height: 100%;
+      object-fit: cover;
+      border-radius: 50%;
+    }
+    .photo-placeholder {
+      font-size: 4rem;
+      color: var(--accent);
+    }
+
+    /* Skills badges */
+    .skills-row {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 0.5rem;
+      margin-top: 1.5rem;
+    }
+    .skill-badge {
+      background: var(--accent-light);
+      color: var(--accent-dark);
+      font-size: 0.78rem;
+      font-weight: 700;
+      letter-spacing: 0.05em;
+      padding: 0.3rem 0.8rem;
+      border-radius: 20px;
+    }
+
+    /* =============================================================
+       PROJECTS SECTION
+       ============================================================= */
+    .projects-grid {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 1.5rem;
+      margin-top: 0.5rem;
+    }
+
+    /* PROJECT CARD
+       ----------------------------------------------------------------
+       HOW TO ADD MORE PROJECTS:
+       1. Copy everything from <!-- PROJECT CARD START --> to
+          <!-- PROJECT CARD END --> below.
+       2. Paste it right after the closing </article> tag.
+       3. Update the image src, title, description, tags, and link.
+       ---------------------------------------------------------------- */
+    .project-card {
+      background: #fff;
+      border-radius: var(--radius);
+      box-shadow: var(--card-shadow);
+      overflow: hidden;
+      display: flex;
+      flex-direction: column;
+      transition: transform var(--transition), box-shadow var(--transition);
+      border: 1px solid #e8edf5;
+    }
+    .project-card:hover {
+      transform: translateY(-5px);
+      box-shadow: 0 12px 32px rgba(94,129,172,0.18);
+    }
+
+    .card-img-wrap {
+      width: 100%;
+      aspect-ratio: 16/9;
+      overflow: hidden;
+      background: var(--accent-light);
+      position: relative;
+    }
+
+    /* CHANGE: Replace src with your real screenshot, e.g.:
+       src="images/project1.png"
+       Recommended size: 800×450 px                        */
+    .card-img-wrap img {
+      width: 100%; height: 100%;
+      object-fit: cover;
+      transition: transform 0.4s ease;
+    }
+    .project-card:hover .card-img-wrap img { transform: scale(1.05); }
+
+    .card-img-placeholder {
+      width: 100%; height: 100%;
+      display: flex; align-items: center; justify-content: center;
+      font-size: 3rem;
+      color: var(--accent);
+    }
+
+    .card-body {
+      padding: 1.4rem;
+      flex: 1;
+      display: flex;
+      flex-direction: column;
+    }
+
+    .card-tags {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 0.4rem;
+      margin-bottom: 0.8rem;
+    }
+    .card-tag {
+      font-size: 0.7rem;
+      font-weight: 700;
+      letter-spacing: 0.06em;
+      text-transform: uppercase;
+      color: var(--accent);
+      background: var(--accent-light);
+      padding: 0.2rem 0.6rem;
+      border-radius: 4px;
+    }
+
+    /* CHANGE: Update project title here */
+    .card-title {
+      font-family: var(--serif);
+      font-size: 1.1rem;
+      font-weight: 600;
+      color: var(--text);
+      margin-bottom: 0.6rem;
+      line-height: 1.3;
+    }
+
+    /* CHANGE: Update project description here */
+    .card-desc {
+      font-size: 0.88rem;
+      color: var(--muted);
+      line-height: 1.65;
+      flex: 1;
+    }
+
+    .card-footer {
+      padding: 0 1.4rem 1.4rem;
+    }
+
+    /* CHANGE: Update href="#" to your real project link, e.g.:
+       href="https://github.com/yourname/project"           */
+    .card-btn {
+      display: inline-flex;
+      align-items: center;
+      gap: 0.5rem;
+      font-size: 0.85rem;
+      font-weight: 700;
+      color: var(--accent);
+      border: 1.5px solid var(--accent);
+      padding: 0.5rem 1rem;
+      border-radius: 6px;
+      transition: all var(--transition);
+    }
+    .card-btn:hover { background: var(--accent); color: #fff; }
+
+    /* =============================================================
+       CONTACT SECTION
+       ============================================================= */
+    .contact-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+      gap: 1.5rem;
+      margin-top: 0.5rem;
+    }
+
+    .contact-card {
+      background: #fff;
+      border: 1px solid #e8edf5;
+      border-radius: var(--radius);
+      padding: 1.8rem;
+      display: flex;
+      align-items: flex-start;
+      gap: 1rem;
+      transition: box-shadow var(--transition), transform var(--transition);
+    }
+    .contact-card:hover {
+      box-shadow: var(--card-shadow);
+      transform: translateY(-3px);
+    }
+
+    .contact-icon {
+      width: 44px; height: 44px;
+      border-radius: 10px;
+      background: var(--accent-light);
+      color: var(--accent);
+      display: flex; align-items: center; justify-content: center;
+      font-size: 1.1rem;
+      flex-shrink: 0;
+    }
+
+    .contact-info h4 {
+      font-size: 0.75rem;
+      font-weight: 700;
+      letter-spacing: 0.1em;
+      text-transform: uppercase;
+      color: var(--muted);
+      margin-bottom: 0.3rem;
+    }
+    .contact-info p, .contact-info a {
+      font-size: 0.92rem;
+      color: var(--text);
+      word-break: break-all;
+    }
+    .contact-info a:hover { color: var(--accent); }
+
+    /* =============================================================
+       FOOTER
+       ============================================================= */
+    footer {
+      background: var(--sidebar-bg);
+      color: #a0aec0;
+      text-align: center;
+      padding: 1.5rem 2rem;
+      font-size: 0.85rem;
+    }
+
+    /* =============================================================
+       RESPONSIVE — collapses sidebar on mobile
+       ============================================================= */
+    @media (max-width: 900px) {
+      #sidebar { display: none; }
+      #main { margin-left: 0; }
+      .projects-grid { grid-template-columns: 1fr 1fr; }
+    }
+    @media (max-width: 600px) {
+      .projects-grid { grid-template-columns: 1fr; }
+      #banner { padding: 3rem 1.2rem; flex-direction: column-reverse; }
+      section { padding: 3rem 1.2rem; }
+      #header { padding: 0.8rem 1.2rem; }
+      .banner-text h2 { font-size: 2rem; }
+    }
+  </style>
+</head>
+<body>
+
+  <!-- ==============================================================
+       SIDEBAR
+       CHANGE: Update your name, job title, and social links here
+       ============================================================== -->
+  <aside id="sidebar">
+
+    <div class="sidebar-brand">
+      <!-- CHANGE: Your full name -->
+      <h1>MD Nafis Alam</h1>
+      <!-- CHANGE: Your job title (keep it short — 1–2 lines) -->
+      <p>Aspiring Data Analyst · Excel · SQL · Python · Power BI</p>
+    </div>
+
+    <hr class="sidebar-divider" />
+
+    <nav>
+      <ul>
+        <li><a href="#banner" class="active"><i class="fas fa-user"></i> About</a></li>
+        <li><a href="#projects"><i class="fas fa-chart-bar"></i> Projects</a></li>
+        <li><a href="#contact"><i class="fas fa-envelope"></i> Contact</a></li>
+      </ul>
+    </nav>
+
+    <!-- CHANGE: Update href values with your real profile URLs -->
+    <div class="sidebar-social">
+      <a href="https://www.linkedin.com/in/md-nafis-alam-b54938225/" target="_blank" title="LinkedIn"><i class="fab fa-linkedin-in"></i></a>
+      <!-- CHANGE: Replace # with your GitHub profile URL -->
+      <a href="#" target="_blank" title="GitHub"><i class="fab fa-github"></i></a>
+      <!-- CHANGE: Replace # with your Kaggle or Tableau Public URL (or delete this line) -->
+      <a href="#" target="_blank" title="Kaggle"><i class="fab fa-kaggle"></i></a>
+      <a href="mailto:mdnafisalam4198@gmail.com" title="Email"><i class="fas fa-envelope"></i></a>
+    </div>
+
+  </aside>
+
+
+  <!-- ==============================================================
+       MAIN CONTENT
+       ============================================================== -->
+  <div id="main">
+
+    <!-- TOP HEADER BAR -->
+    <header id="header">
+      <span class="header-logo">
+        <!-- CHANGE: This is the logo text in the top bar -->
+        <i class="fas fa-chart-line" style="margin-right:0.4rem;"></i>Portfolio
+      </span>
+      <div class="header-social">
+        <a href="https://www.linkedin.com/in/md-nafis-alam-b54938225/" target="_blank"><i class="fab fa-linkedin-in"></i></a>
+        <a href="#" target="_blank"><i class="fab fa-github"></i></a>
+        <a href="mailto:mdnafisalam4198@gmail.com"><i class="fas fa-envelope"></i></a>
+      </div>
+    </header>
+
+
+    <!-- ============================================================
+         BANNER / ABOUT SECTION
+         ============================================================ -->
+    <section id="banner">
+
+      <!-- Left: Bio text -->
+      <div class="banner-text">
+        <p class="banner-greeting">👋 Hello, I'm</p>
+
+        <!-- CHANGE: Your full name in the hero heading -->
+        <h2>MD Nafis Alam</h2>
+
+        <!-- CHANGE: Your headline / value proposition -->
+        <p class="banner-subtitle">Aspiring Data Analyst with Hospitality Experience</p>
+
+        <!-- CHANGE: Your bio paragraph. Keep it 3–5 sentences. -->
+        <p class="banner-bio">
+          Operations-focused hospitality professional currently transitioning into Data Analytics,
+          with 3+ years of hands-on experience in sales reporting, KPI tracking, inventory cost
+          control, and team performance management at Devyani International (Sky Gate Hospitality).
+          Currently building a technical foundation in SQL, Python, Excel, and Power BI (1 year of
+          active learning). Combines strong business domain knowledge with emerging data skills to
+          surface actionable insights and drive data-informed decisions.
+        </p>
+
+        <!-- Skill badges — CHANGE: Add or remove skills as needed -->
+        <div class="skills-row">
+          <span class="skill-badge">Excel</span>
+          <span class="skill-badge">SQL</span>
+          <span class="skill-badge">Python</span>
+          <span class="skill-badge">Power BI</span>
+          <span class="skill-badge">KPI Tracking</span>
+          <span class="skill-badge">Data Storytelling</span>
+          <span class="skill-badge">Inventory Analysis</span>
+        </div>
+
+        <div class="banner-cta">
+          <a href="#projects" class="btn btn-primary"><i class="fas fa-chart-bar"></i> View Projects</a>
+          <a href="#contact" class="btn btn-outline"><i class="fas fa-paper-plane"></i> Contact Me</a>
+        </div>
+      </div>
+
+      <!-- Right: Profile photo -->
+      <div class="banner-photo">
+        <div class="photo-circle">
+          <!-- ============================================================
+               CHANGE YOUR PROFILE PHOTO
+               Step 1: Save your photo as "profile.jpg" inside the "images/" folder.
+               Step 2: Delete the <div class="photo-placeholder">...</div> line below.
+               Step 3: Uncomment the <img> tag below (remove the <!-- and -->).
+               ============================================================
+          <img src="images/profile.jpg" alt="MD Nafis Alam" />
+          -->
+          <!-- This placeholder shows until you add your real photo -->
+          <div class="photo-placeholder"><i class="fas fa-user"></i></div>
+        </div>
+        <!-- CHANGE: Your location shown under the photo -->
+        <p style="font-size:0.85rem; color:var(--muted); display:flex; align-items:center; gap:0.4rem;">
+          <i class="fas fa-map-marker-alt" style="color:var(--accent);"></i> Bengaluru, India
+        </p>
+      </div>
+
+    </section>
+
+
+    <!-- ============================================================
+         PROJECTS SECTION
+         ============================================================ -->
+    <section id="projects">
+      <p class="section-label">My Work</p>
+      <h2 class="section-title">Projects</h2>
+      <div class="section-divider"></div>
+
+      <div class="projects-grid">
+
+        <!-- ============================================================
+             PROJECT CARD START — Copy from here to PROJECT CARD END
+             to add a new project card. Then update the details inside.
+             ============================================================ -->
+        <article class="project-card">
+          <div class="card-img-wrap">
+            <!-- ============================================================
+                 CHANGE: Replace the placeholder with your project screenshot.
+                 Step 1: Save the image in the images/ folder, e.g. images/project1.png
+                 Step 2: Change src below to "images/project1.png"
+                 Step 3: Delete the <div class="card-img-placeholder">...</div> line
+                 ============================================================
+            <img src="images/project1.png" alt="Amazon Global Superstore Dashboard" />
+            -->
+            <div class="card-img-placeholder"><i class="fas fa-chart-pie"></i></div>
+          </div>
+          <div class="card-body">
+            <!-- CHANGE: Update the tags to match your tools/technologies -->
+            <div class="card-tags">
+              <span class="card-tag">Power BI</span>
+              <span class="card-tag">Excel</span>
+            </div>
+            <!-- CHANGE: Your project title -->
+            <h3 class="card-title">Amazon Global Superstore Dashboard</h3>
+            <!-- CHANGE: Your project description (2–3 sentences) -->
+            <p class="card-desc">
+              End-to-end sales analytics dashboard built in Power BI analysing $12.64M in global
+              sales across Furniture, Technology, and Office Supplies segments. Highlights profit
+              by region, customer, and product with interactive year filters.
+            </p>
+          </div>
+          <div class="card-footer">
+            <!-- CHANGE: Replace # with your real project link (GitHub, Novypro, etc.) -->
+            <a href="#" class="card-btn" target="_blank">
+              <i class="fas fa-external-link-alt"></i> View Project
+            </a>
+          </div>
+        </article>
+        <!-- PROJECT CARD END =========================================== -->
+
+
+        <!-- ============================================================
+             PROJECT CARD 2 — Follow the same instructions above
+             ============================================================ -->
+        <article class="project-card">
+          <div class="card-img-wrap">
+            <!-- CHANGE: Add your screenshot (see instructions in Card 1) -->
+            <div class="card-img-placeholder"><i class="fas fa-database"></i></div>
+          </div>
+          <div class="card-body">
+            <div class="card-tags">
+              <span class="card-tag">SQL</span>
+              <span class="card-tag">Python</span>
+            </div>
+            <!-- CHANGE: Your project title -->
+            <h3 class="card-title">Sales & Inventory Analysis</h3>
+            <!-- CHANGE: Your project description -->
+            <p class="card-desc">
+              SQL-driven deep-dive into inventory cost control and sales performance metrics
+              extracted from hospitality operations data. Identifies slow-moving SKUs and
+              optimises reorder thresholds.
+            </p>
+          </div>
+          <div class="card-footer">
+            <!-- CHANGE: Replace # with your real project link -->
+            <a href="#" class="card-btn" target="_blank">
+              <i class="fas fa-external-link-alt"></i> View Project
+            </a>
+          </div>
+        </article>
+
+
+        <!-- ============================================================
+             PROJECT CARD 3 — Follow the same instructions above
+             ============================================================ -->
+        <article class="project-card">
+          <div class="card-img-wrap">
+            <!-- CHANGE: Add your screenshot -->
+            <div class="card-img-placeholder"><i class="fas fa-table"></i></div>
+          </div>
+          <div class="card-body">
+            <div class="card-tags">
+              <span class="card-tag">Excel</span>
+              <span class="card-tag">KPI</span>
+            </div>
+            <!-- CHANGE: Your project title -->
+            <h3 class="card-title">KPI Tracker — Team Performance</h3>
+            <!-- CHANGE: Your project description -->
+            <p class="card-desc">
+              Dynamic Excel dashboard tracking individual and team KPIs for a 20-person
+              hospitality unit. Includes conditional-formatting scorecards, trend sparklines,
+              and automated weekly summary reports.
+            </p>
+          </div>
+          <div class="card-footer">
+            <!-- CHANGE: Replace # with your real project link -->
+            <a href="#" class="card-btn" target="_blank">
+              <i class="fas fa-external-link-alt"></i> View Project
+            </a>
+          </div>
+        </article>
+
+        <!-- ============================================================
+             ➕ TO ADD MORE PROJECTS: Copy a card block above and paste
+             it here. The grid will automatically adjust columns.
+             ============================================================ -->
+
+      </div><!-- /projects-grid -->
+    </section>
+
+
+    <!-- ============================================================
+         CONTACT SECTION
+         ============================================================ -->
+    <section id="contact">
+      <p class="section-label">Get In Touch</p>
+      <h2 class="section-title">Contact</h2>
+      <div class="section-divider"></div>
+
+      <div class="contact-grid">
+
+        <!-- Email — CHANGE: Update the email address in both href and the text -->
+        <div class="contact-card">
+          <div class="contact-icon"><i class="fas fa-envelope"></i></div>
+          <div class="contact-info">
+            <h4>Email</h4>
+            <a href="mailto:mdnafisalam4198@gmail.com">mdnafisalam4198@gmail.com</a>
+          </div>
+        </div>
+
+        <!-- LinkedIn — CHANGE: Update the href and display text -->
+        <div class="contact-card">
+          <div class="contact-icon"><i class="fab fa-linkedin-in"></i></div>
+          <div class="contact-info">
+            <h4>LinkedIn</h4>
+            <a href="https://www.linkedin.com/in/md-nafis-alam-b54938225/" target="_blank">md-nafis-alam</a>
+          </div>
+        </div>
+
+        <!-- Location — CHANGE: Update your city -->
+        <div class="contact-card">
+          <div class="contact-icon"><i class="fas fa-map-marker-alt"></i></div>
+          <div class="contact-info">
+            <h4>Location</h4>
+            <p>Bengaluru, India</p>
+          </div>
+        </div>
+
+        <!-- GitHub — CHANGE: Replace # with your GitHub profile URL -->
+        <div class="contact-card">
+          <div class="contact-icon"><i class="fab fa-github"></i></div>
+          <div class="contact-info">
+            <h4>GitHub</h4>
+            <a href="#" target="_blank">github.com/your-username</a>
+          </div>
+        </div>
+
+      </div>
+    </section>
+
+
+    <!-- ============================================================
+         FOOTER
+         CHANGE: Update the copyright year and your name
+         ============================================================ -->
+    <footer>
+      <p>&copy; 2025 MD Nafis Alam &mdash; Aspiring Data Analyst &middot; Bengaluru, India</p>
+    </footer>
+
+  </div><!-- /#main -->
+
+
+  <script>
+    /* =============================================================
+       Active nav link highlight on scroll
+       No changes needed here unless you add new sections.
+       ============================================================= */
+    const sections = document.querySelectorAll('section[id], div[id="banner"]');
+    const navLinks = document.querySelectorAll('#sidebar nav a');
+
+    const observer = new IntersectionObserver(entries => {
+      entries.forEach(entry => {
+        if (entry.isIntersecting) {
+          navLinks.forEach(link => {
+            link.classList.toggle(
+              'active',
+              link.getAttribute('href') === '#' + entry.target.id
+            );
+          });
+        }
+      });
+    }, { threshold: 0.4 });
+
+    document.querySelectorAll('section[id]').forEach(s => observer.observe(s));
+    observer.observe(document.getElementById('banner'));
+  </script>
+
+</body>
+</html>
